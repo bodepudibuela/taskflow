@@ -22,27 +22,44 @@ export default function AppShell({ children, title = 'TaskFlow', onSearch }) {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
+  <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
+    
+    {/* Mobile overlay */}
+    {!collapsed && (
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+        onClick={() => setCollapsed(true)}
+      />
+    )}
+
+    {/* Sidebar */}
+    <div className={`fixed lg:relative z-30 h-full transition-transform duration-300 ${collapsed ? '-translate-x-full lg:translate-x-0' : 'translate-x-0'}`}>
       <Sidebar
         projects={projects}
         onNewProject={() => setShowCreate(true)}
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
       />
-
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Header title={title} onSearch={onSearch} />
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
-      </div>
-
-      {showCreate && (
-        <CreateProjectModal
-          onClose={() => setShowCreate(false)}
-          onCreated={handleProjectCreated}
-        />
-      )}
     </div>
+
+    {/* Main content */}
+    <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <Header
+        title={title}
+        onSearch={onSearch}
+        onMenuToggle={() => setCollapsed(!collapsed)}
+      />
+      <main className="flex-1 overflow-y-auto">
+        {children}
+      </main>
+    </div>
+
+    {showCreate && (
+      <CreateProjectModal
+        onClose={() => setShowCreate(false)}
+        onCreated={handleProjectCreated}
+      />
+    )}
+  </div>
   );
 }

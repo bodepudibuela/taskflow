@@ -15,7 +15,8 @@ export default function CreateTaskModal({ projectId, members = [], defaultStatus
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();                   
+  
     if (!form.title.trim()) { toast.error('Task title is required'); return; }
     setLoading(true);
     try {

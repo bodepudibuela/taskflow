@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import toast from 'react-hot-toast';
 
-export default function Header({ title, onSearch }) {
+export default function Header({ title, onSearch, onMenuToggle }) {
   const [notifications, setNotifications] = useState([]);
   const [unread, setUnread] = useState(0);
   const [showNotifs, setShowNotifs] = useState(false);
@@ -64,6 +64,14 @@ export default function Header({ title, onSearch }) {
 
   return (
     <header className="flex items-center gap-4 px-6 py-3 border-b" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      {/* Hamburger - mobile only */}
+<button
+  className="lg:hidden p-2 rounded-lg"
+  onClick={onMenuToggle}
+  style={{ color: 'var(--text)' }}
+>
+  ☰
+</button>
       {/* Title */}
       <h1 className="text-lg font-semibold flex-shrink-0" style={{ color: 'var(--text)' }}>{title}</h1>
 
